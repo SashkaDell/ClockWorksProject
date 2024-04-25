@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity() {
             localDate.minutes = minutes
             val dateBtn = findViewById<Button>(R.id.dateButton)
             dateBtn.text = DateFormat.getDateInstance().format(localDate)
-            convertDate(userTimeZone, selectedTimeZone);
+            convertDate(userTimeZone, selectedTimeZone)
         }
 
     }
@@ -154,7 +154,7 @@ class MainActivity : AppCompatActivity() {
             setupAdapter()
         }
 
-        convertDate(userTimeZone, selectedTimeZone);
+        convertDate(userTimeZone, selectedTimeZone)
     }
 
 

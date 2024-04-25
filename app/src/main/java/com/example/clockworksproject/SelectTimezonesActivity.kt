@@ -3,14 +3,15 @@ package com.example.clockworksproject
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ListView
+import android.widget.*
+import androidx.core.view.MenuItemCompat
 import java.util.TimeZone
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.ArrayList
+import android.widget.Filter
+import java.util.Arrays
 
 class SelectTimezonesActivity : AppCompatActivity() {
     private val selectedTimezones = mutableListOf<String>()
@@ -18,6 +19,7 @@ class SelectTimezonesActivity : AppCompatActivity() {
     private val timezones = TimeZone.getAvailableIDs().toMutableList()
     private lateinit var listView: ListView
     private var showAll = true
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +45,7 @@ class SelectTimezonesActivity : AppCompatActivity() {
 
         checkSelectedTimezones()
     }
+
 
 
     fun done(view: View) {
@@ -89,6 +92,27 @@ class SelectTimezonesActivity : AppCompatActivity() {
         for (j in 0 until adapter.count) {
             listView.setItemChecked(j, selectedTimezones.contains(adapter.getItem(j)))
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.options_menu, menu)
+        val searchItem: MenuItem = menu.findItem(R.id.action_search)
+        val searchView: SearchView = MenuItemCompat.getActionView(searchItem) as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(s: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(s: String?): Boolean {
+                adapter.filter.filter(s, object : Filter.FilterListener {
+                    override fun onFilterComplete(i: Int) {
+                        checkSelectedTimezones()
+                    }
+                })
+                return true
+            }
+        })
+        return true
     }
 }
 
