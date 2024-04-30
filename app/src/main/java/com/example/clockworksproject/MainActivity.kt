@@ -9,6 +9,8 @@ import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import java.text.DateFormat
 import java.util.ArrayList
 import java.util.Arrays
@@ -29,6 +31,9 @@ class MainActivity : AppCompatActivity() {
     var convertedDateTv: TextView? = null
     var listView: ListView? = null
     var adapter: ArrayAdapter<String>? = null
+
+
+
 
     private val CHOOSE_TIME_ZONE_REQUEST_CODE = 1
     private val SELECT_TIME_ZONES_REQUEST_CODE = 2
@@ -115,6 +120,8 @@ class MainActivity : AppCompatActivity() {
             dateBtn.text = DateFormat.getDateInstance().format(localDate)
             convertDate(userTimeZone, selectedTimeZone)
         }
+
+
 
     }
 
