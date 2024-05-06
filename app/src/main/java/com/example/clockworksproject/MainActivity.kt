@@ -11,6 +11,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.text.DateFormat
 import java.util.ArrayList
 import java.util.Arrays
@@ -31,12 +32,14 @@ class MainActivity : AppCompatActivity() {
     var convertedDateTv: TextView? = null
     var listView: ListView? = null
     var adapter: ArrayAdapter<String>? = null
+    var countDown: FloatingActionButton? = null
 
 
 
 
     private val CHOOSE_TIME_ZONE_REQUEST_CODE = 1
     private val SELECT_TIME_ZONES_REQUEST_CODE = 2
+    private val COUNT_DOWN_CODE = 3
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +50,8 @@ class MainActivity : AppCompatActivity() {
         val userTime = findViewById<TextView>(R.id.userTime)
         convertedTimeTv = findViewById(R.id.convertedTime)
         convertedDateTv = findViewById(R.id.convertedDate)
+
+        val countDown = findViewById<FloatingActionButton>(R.id.countDownFloatingActionButton)
 
 
         seekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
@@ -78,14 +83,6 @@ class MainActivity : AppCompatActivity() {
 
         selectTimeZoneBtn = findViewById(R.id.timeZoneButton)
 
-//        val adapter = ArrayAdapter(
-//            this,
-//            android.R.layout.simple_list_item_activated_1,
-//            android.R.id.text1,
-//            selectedTimeZones
-//        )
-//        val listView = findViewById<ListView>(R.id.listView)
-//        listView.adapter = adapter
 
         listView = findViewById(R.id.listView)
         setupAdapter()
@@ -95,15 +92,6 @@ class MainActivity : AppCompatActivity() {
             convertDate(userTimeZone, selectedTimeZone)
         }
 
-//        listView?.setOnItemClickListener { parent, view, position, id ->
-//            selectedTimeZone = TimeZone.getTimeZone(selectedTimeZones[position])
-//        }
-
-//        listView?.onItemClickListener =
-//            OnItemClickListener { adapterView, view, i, l ->
-//                selectedTimeZone = TimeZone.getTimeZone(selectedTimeZones[i])
-//                convertDate(userTimeZone, selectedTimeZone)
-//            }
 
         fun showDatePicker(view: View) {
             val dialog = DatePickerFragment()
@@ -121,7 +109,12 @@ class MainActivity : AppCompatActivity() {
             convertDate(userTimeZone, selectedTimeZone)
         }
 
-
+        countDown.setOnClickListener(object: View.OnClickListener {
+            override fun onClick(view: View): Unit {
+                val intent = Intent(this@MainActivity, CountDown::class.java);
+                startActivity(intent)
+            }
+        })
 
     }
 
@@ -139,17 +132,6 @@ class MainActivity : AppCompatActivity() {
             userTimeZone = TimeZone.getTimeZone(timezone ?: "")
         }
 
-//        if (requestCode == SELECT_TIME_ZONES_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-//            data?.getBundleExtra("selectedTimezonesBundle")?.let { bundle ->
-//                bundle.getStringArrayList("selectedTimezones")?.let { selectedTimezonesArrayList ->
-//                    selectedTimezonesArrayList.sortedWith(Comparator { s, t1 ->
-//                        s.compareTo(t1, ignoreCase = true)
-//                    }).toTypedArray().also { selectedTimezones ->
-//                        setupAdapter()
-//                    }
-//                }
-//            }
-//        }
 
         if (requestCode == SELECT_TIME_ZONES_REQUEST_CODE && resultCode == RESULT_OK) {
             val bundle = data?.getBundleExtra("selectedTimezonesBundle")
@@ -190,6 +172,7 @@ class MainActivity : AppCompatActivity() {
         startActivityForResult(intent, 2)
     }
 
+
     private fun setupAdapter() {
         adapter = ArrayAdapter(
             this,
@@ -199,6 +182,8 @@ class MainActivity : AppCompatActivity() {
         )
         listView?.adapter = adapter
     }
+
+
 
 
 

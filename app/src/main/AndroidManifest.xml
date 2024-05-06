@@ -12,10 +12,10 @@
         android:theme="@style/Theme.ClockWorksProject"
         tools:targetApi="31">
         <activity
-            android:name=".Navigation"
+            android:name=".CountDown"
             android:exported="false" />
         <activity
-            android:name=".CountDown"
+            android:name=".Navigation"
             android:exported="false" />
         <activity
             android:name=".SelectTimezonesActivity"
